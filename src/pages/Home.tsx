@@ -1,9 +1,18 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { login } from "../services/auth.service";
+import Cookies from "universal-cookie";
 
 const Home = () => {
   const navigate = useNavigate();
+  
+  // Check if token present
+  const cookies = new Cookies();
+  useEffect(() => {
+    if (cookies.get("token")){
+      navigate("/chart");
+    }
+  }, [])
 
   const [isValidated, setIsValidated] = useState(true);
 
@@ -24,7 +33,7 @@ const Home = () => {
   return (
     <>
       <h1>Coloumb AI Assignment</h1>
-      <div className="form d-flex-row">
+      <div className="d-flex-row form" onSubmit={handleLogin}>
         <div className="flex-grow-1 d-flex justify-content-center m-3">
           <div className="mx-2">
             <label>Username</label>
@@ -64,6 +73,7 @@ const Home = () => {
           Login
         </button>
         <button
+          type="button"
           className="btn btn-danger m-2"
           onClick={() => navigate("/signup")}
         >

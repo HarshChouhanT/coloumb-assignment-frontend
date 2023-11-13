@@ -92,8 +92,8 @@ const Chart = () => {
     gender?: string
   ) => {
     const chartData = await getChartData(
-      startDate ? moment(startDate).format("YYYY-MM-DD") : "",
-      endDate ? moment(endDate).format("YYYY-MM-DD") : "",
+      startDate ? moment(startDate).format("YYYY-MM-DD") : undefined,
+      endDate ? moment(endDate).format("YYYY-MM-DD") : undefined,
       age,
       gender
     );
@@ -120,7 +120,7 @@ const Chart = () => {
     ? new Date(moment(searchParams.get("startDate")).format("YYYY-MM-DD"))
     : params.startDate
     ? params.startDate
-    : undefined;
+    : new Date("2022-09-01");
   const endDate: any = searchParams.get("endDate")
     ? new Date(moment(searchParams.get("endDate")).format("YYYY-MM-DD"))
     : params.endDate
@@ -139,7 +139,6 @@ const Chart = () => {
 
   useEffect(() => {
     loadData(startDate, endDate, age, gender);
-    console.log(cookies);
   }, [searchParams]);
 
   // TODO: transform chartInfo into barChartInfo
@@ -216,8 +215,8 @@ const Chart = () => {
   };
 
   const handleSignOut = () => {
-    localStorage.removeItem("token");
     cookies.remove("token");
+    cookies.remove("searchQuery");
     navigate("/");
   };
 
@@ -242,7 +241,7 @@ const Chart = () => {
               type="date"
               className="form-control"
               pattern="\d{4}-\d{2}-\d{2}"
-              value={new Date(startDate)?.toISOString()?.split("T")[0]}
+              value={moment(startDate).format("YYYY-MM-DD")}
               onChange={handleChange}
             />
           </div>
@@ -254,7 +253,7 @@ const Chart = () => {
               id="endDate"
               type="date"
               className="form-control"
-              value={new Date(endDate)?.toISOString()?.split("T")[0]}
+              value={moment(endDate).format("YYYY-MM-DD")}
               onChange={handleChange}
             />
           </div>

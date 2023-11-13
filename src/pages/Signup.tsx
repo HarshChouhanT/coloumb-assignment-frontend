@@ -24,7 +24,7 @@ const Signup = () => {
   return (
     <>
       <h1>Coloumb AI Assignment</h1>
-      <div className="form d-flex-row">
+      <div className="form d-flex-row" onSubmit={handleSignup}>
         <div className="flex-grow-1 d-flex justify-content-center m-3">
           <div className="mx-2">
             <label>Username</label>
