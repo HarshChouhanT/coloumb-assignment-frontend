@@ -111,6 +111,11 @@ const Chart = () => {
 
   // Get Cookies
   const cookies = new Cookies();
+  useEffect(() => {
+    if (!cookies.get("token")){
+      navigate("/");
+    }
+  }, [])
 
   const savedQueryParams = cookies.get("searchQuery");
   const params = queryString.parse(savedQueryParams);
